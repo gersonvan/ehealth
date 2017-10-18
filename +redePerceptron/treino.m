@@ -1,15 +1,24 @@
-function resultadoTreino = treino(dados,epocas,cols,txApr)
+function resultadoTreino = treino(dados)
+
+resultadoTreino = dados;
 
 %% rede perceptron
-[tam, ~] = size(dados.treino);
-x = dados.treino(:,cols);
-yd = dados.treino(:,length(cols)+1:end);
-
-[~,numSaidas] = size(yd);
-w = rand(length(cols),numSaidas);
-
+% Parâmetros
+epocas = dados.epocas;
+txApr = dados.txApr;
+numNeuronios = dados.numNeuronios;
+precisao = dados.precisao;
 epoca = 0;
-precisao = 0.01;
+
+% Dados de Entrada e saída
+cols = dados.cols;
+x = dados.treino(:,cols);
+yd = dados.treino(:,dados.colunasInput+1:end);
+
+tam = size(dados.treino,1);
+numSaidas = size(yd,2);
+
+w = rand(length(cols),numSaidas);
 
 resultadoTreino.acc = [];
 resultadoTreino.contagem = [];

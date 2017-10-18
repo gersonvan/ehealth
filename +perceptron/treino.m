@@ -1,4 +1,4 @@
-function resultadoTreino = treino(dados,epocas,cols,n)
+function resultadoTreino = treino(dados,epocas,n)
 
 %% perceptron
 [tam, ~] = size(dados.treino);

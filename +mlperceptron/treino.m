@@ -1,21 +1,29 @@
-function resultadoTreino = treino(dados,epocas,cols,txApr)
+function resultadoTreino = treino(dados)
 
-%% perceptron
-numNeuronios = 8;
+resultadoTreino = dados;
+
+%% mlperceptron
+% Parâmetros
+epocas = dados.epocas;
+txApr = dados.txApr;
+numNeuronios = dados.numNeuronios;
+precisao = dados.precisao;
 epoca = 0;
-precisao = 0.01;
 
+% Dados de Entrada e Saída
+cols = dados.cols;
 x = dados.treino(:,cols);
-yd = dados.treino(:,length(cols)+1:end);
+yd = dados.treino(:,dados.colunasInput+1:end);
 
-[tam, ~] = size(dados.treino);
-[~,numSaidas] = size(yd);
+tam = size(dados.treino,1);
+numSaidas = size(yd,2);
 
 w1 = rand(length(cols),numNeuronios);
 w2 = rand(numNeuronios,numSaidas);
 
 resultadoTreino.acc = [];
 resultadoTreino.contagem = [];
+resultadoTreino.erros = [];
 
 while epoca < epocas
     shuffle = randperm(tam);
@@ -41,29 +49,30 @@ while epoca < epocas
         w1 = w1 - txApr*dw1;
         w2 = w2 - txApr*dw2;
         
-        % Índice para transformação em binário
+        % Max - resultado: Índice do maior
         [~,indice] = max(yHat);
         if indice == 3
             indice = 4;
         end
         yt(i,:) = indice;
-
-        resultadoTreino.erros(i,:) = sum(mse);
     end
     
     epoca = epoca +1;
     
+    %% Resultados
     yt = de2bi(yt,size(yd,2));
     acc = mean(ones(size(shuffle)) == mean((yd == yt)'));
     resultadoTreino.contagem = epoca;
     resultadoTreino.acc = acc*100;
     resultadoTreino.contagem = epoca;
+    resultadoTreino.erros(epoca) = sum(mse);
     
+    % 2º condicional
     if abs(sum(mse)) < precisao
         break;
     end
-    
     yt = [];
+    
 end
 resultadoTreino.w1 = w1;
 resultadoTreino.w2 = w2;

@@ -1,12 +1,14 @@
-function resultadoTeste = teste(dados, w,cols)
+function resultadoTeste = teste(dados)
+
+cols = dados.cols;
 
 %% perceptron
-[tam, ~] = size(dados.teste);
+tam = dados.teste_count;
 xt = dados.teste(:,cols);
 ydt = dados.teste(:,length(cols)+1:end);
 
-w1 = w.w1;
-w2 = w.w2;
+w1 = dados.w1;
+w2 = dados.w2;
 
 resultadoTeste = [];
 resultadoTeste.acc = [];
@@ -18,8 +20,6 @@ for it = 1:tam
         [u, ~] = activation(h,'log');
         z = u*w2;
         [yHat, ~] = activation(z,'log');
-        sig1 = ydt(it,:) - yHat;
-        mse = 0.5*(ydt(it,:)-yHat).^2;
         
         [~,indice] = max(yHat);
     if indice == 3
@@ -27,7 +27,6 @@ for it = 1:tam
     end
     
     yt(it,:) = indice;
-    resultadoTeste.erros(it,:) = sum(mse);
         
 end
 yt = de2bi(yt,size(ydt,2));

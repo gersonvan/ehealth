@@ -1,7 +1,9 @@
-function resultadoTreino = treino(dados,epocas,cols,n)
+function resultadoTreino = treino(dados,epocas,n)
 
 %% perceptron
 [tam, ~] = size(dados.treino);
+cols = dados.cols;
+
 x = dados.treino(:,cols);
 yd = dados.treino(:,length(cols)+1:end);
 
@@ -18,7 +20,7 @@ while epoca < epocas
     x = x(shuffle,:);
     yd = yd(shuffle,:);
     
-    for i = 1:dados.treino_inputs
+    for i = 1:dados.treino_count
         u = w*x(i,:)';
         
         % função sigmoide

@@ -1,10 +1,12 @@
-function resultadoTeste = teste(dados,w,cols)
+function resultadoTeste = teste(dados)
 
 %% perceptron
 [tam, ~] = size(dados.teste);
+cols = dados.cols;
+
 xt = dados.teste(:,cols);
 ydt = dados.teste(:,length(cols)+1:end);
-w = w.w;
+w = dados.w;
 
 resultadoTeste.teste = [];
 resultadoTeste.acc = [];
