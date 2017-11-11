@@ -5,7 +5,7 @@ classe3 = [];
 x = dataset.teste(:,1:dataset.colunasInput);
 y = dataset.teste(:,dataset.colunasInput+1:end);
 
-if dataset.colunasInput == 3
+if dataset.colunasOutput == 3
     for c = 1:dataset.teste_count
         if y(c,:) == [1 0 0]
             classe1 = [classe1; x(c,:)];
@@ -36,13 +36,13 @@ image_size = size(x1);
 
 xy = [x1(:) y1(:)]; % make (x,y) pairs as a bunch of row vectors.
 
-xy = [reshape(x1, image_size(1)*image_size(2),1) ...
-    reshape(y1, image_size(1)*image_size(2),1)];
+% xy = [reshape(x1, image_size(1)*image_size(2),1) ...
+%     reshape(y1, image_size(1)*image_size(2),1)];
 
 numxypairs = length(xy); % number of (x,y) pairs
 dist = [];
 for i=1:dataset.colunasOutput
-    disttemp = sum(abs(xy - repmat(meanClasses(i,:), [numxypairs 1])), 2);
+    disttemp = sum(abs(xy - repmat(meanClasses(i), [numxypairs 1])), 2);
     dist = [dist disttemp];
 end
 
@@ -67,7 +67,7 @@ colormap(cmap);
 % plot the class training data.
 plot(classe1(:,1),classe1(:,2), 'r.');
 plot(classe2(:,1),classe2(:,2), 'go');
-if dataset.colunasInput == 3
+if dataset.colunasOutput == 3
     plot(classe3(:,1),classe3(:,2), 'b*');
 end
 % include legend
